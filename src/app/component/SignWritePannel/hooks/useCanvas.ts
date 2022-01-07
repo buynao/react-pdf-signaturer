@@ -3,7 +3,7 @@ import * as React from "react";
 import { ICanvasPosition } from "MyTypes";
 import { drawCircle, drawLine, setCanvas } from "../../../../util/canvasTool";
 import { getCanvasStandPosition } from "../../PDFViewer/util";
-import { getMoveEvent } from "../../../../util/help";
+import { getMoveEvent, isPC } from "../../../../util/help";
 
 const { useEffect, useRef, useState } = React;
 
@@ -19,7 +19,7 @@ interface CanvasSize {
 
 const moveEvent = getMoveEvent();
 
-export const useCanvas = (writeSign: any, signInfo: SignInfo, canvasSize: CanvasSize): React.RefObject<HTMLCanvasElement> =>  {
+export const useCanvas = (writeSign: any, signInfo: SignInfo, canvasSize: CanvasSize, saveClipSize: any): React.RefObject<HTMLCanvasElement> =>  {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const oldOffset = useRef<ICanvasPosition>({} as ICanvasPosition);
     const newOffset = useRef<ICanvasPosition>({} as ICanvasPosition);
@@ -27,6 +27,10 @@ export const useCanvas = (writeSign: any, signInfo: SignInfo, canvasSize: Canvas
     const touchMoveEventRef = useRef<any>();
     const touchEndEventRef = useRef<any>();
     const isMoveRef = useRef(false);
+    let minX = Infinity;
+    let maxX = 0;
+    let minY = Infinity;
+    let maxY = 0;
     // 开始画
     const touchStartEvent = (e: any, canvas: HTMLCanvasElement) => {
       const c = canvas;
@@ -39,6 +43,10 @@ export const useCanvas = (writeSign: any, signInfo: SignInfo, canvasSize: Canvas
         x: canvasPosition.x,
         y: canvasPosition.y
       }
+      minX = Math.min(minX, canvasPosition.x);
+      maxX = Math.max(maxX, canvasPosition.x);
+      minY = Math.min(minY, canvasPosition.y);
+      maxY = Math.max(maxY, canvasPosition.y);
     }
     // 移动画
     const touchMoveEvent = (e: any, canvas: HTMLCanvasElement) => {
@@ -52,6 +60,10 @@ export const useCanvas = (writeSign: any, signInfo: SignInfo, canvasSize: Canvas
               x: newOffset.current.x,
               y: newOffset.current.y
             };
+            minX = Math.min(minX, newOffset.current.x);
+            maxX = Math.max(maxX, newOffset.current.x);
+            minY = Math.min(minY, newOffset.current.y);
+            maxY = Math.max(maxY, newOffset.current.y);
         }
     }
     // 结束画
@@ -60,6 +72,13 @@ export const useCanvas = (writeSign: any, signInfo: SignInfo, canvasSize: Canvas
         const ctx = c.getContext('2d');
         if (!ctx) return;
         if (isMoveRef.current) {
+          const w = maxX - minX + 20;
+          const h = maxY - minY + 20;
+          saveClipSize({
+            w, h, x: minX, y: minY
+          });
+          console.log(`x:${minX}; y:${minY}; width:${w}; height:${h}`)
+          // console.log(width, height);
           isMoveRef.current = false;
           writeSign(true);
         }
@@ -99,7 +118,7 @@ export const useCanvas = (writeSign: any, signInfo: SignInfo, canvasSize: Canvas
     useEffect(() => {
       if (!canvasRef.current) return;
       console.log(`当前canvas大小：${JSON.stringify(canvasSize)}`)
-      canvasRef.current.width = canvasSize.width;
+      canvasRef.current.width = isPC ? 800 : canvasSize.width;
       canvasRef.current.height = canvasSize.height;
       
       const ctx = canvasRef.current.getContext('2d');

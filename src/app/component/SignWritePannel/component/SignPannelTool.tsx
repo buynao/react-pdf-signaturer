@@ -11,23 +11,55 @@ interface Props {
   addSignInCanvas: AddSignInCanvas;
   hideSignWritePannel: () => void;
 }
+type ClipData = {
+  w: number;
+  h: number;
+  x: number;
+  y: number;
+}
+function clipCanvas(canvas: HTMLCanvasElement, clipData: ClipData): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const { x, y, w, h } = clipData;
+    let image: HTMLImageElement | null = new Image();
+    let clipCanvas: HTMLCanvasElement | null = document.createElement('canvas');
+    const clipCtx = clipCanvas.getContext('2d') as CanvasRenderingContext2D;
+    clipCanvas.width = clipData.w;
+    clipCanvas.height = clipData.h;
 
+    const MIME_TYPE = "image/png";
+    const imgUrl = canvas.toDataURL(MIME_TYPE);
+
+    image.src = imgUrl;
+    image.onload = function () {
+      if (image && clipCanvas) {
+        clipCtx.drawImage(image, x, y, w, h, 0, 0, w, h);
+        resolve(clipCanvas.toDataURL(MIME_TYPE))
+      }
+
+      image = null;
+      clipCanvas = null;
+    }
+  });
+}
 function SignPannelTool(props: any) {
-  const { canvas, isWrite, addSignInCanvas, hideSignWritePannel,
+  const { canvas, clipSize, isWrite, addSignInCanvas, hideSignWritePannel,
     lineWidth, color, writeSign, setColor, setLineWidth } = props;
 
   // 保存
-  const saveSign = () => {
+  const saveSign = async () => {
+    console.log(canvas);
     if (!canvas) return;
     if (isWrite) {
       const ctx = canvas.getContext('2d');
       const width = canvas.width;
       const height = canvas.height;
       const MIME_TYPE = "image/png";
-      const imgURL = canvas.toDataURL(MIME_TYPE);
+      const imgURL = await clipCanvas(canvas, clipSize);
+      console.log(imgURL);
+      console.log(clipSize);
       // 横屏保存
-      if (isPC() || window.orientation === 90) {
-        addSignInCanvas(imgURL, canvas.width, canvas.height, 0);
+      if (isPC || window.orientation === 90) {
+        addSignInCanvas(imgURL, clipSize.w, clipSize.h, 0);
         hideSignWritePannel();
       } else {
         // 竖屏状态 - 翻转图像进行保存
@@ -97,8 +129,8 @@ function SignPannelTool(props: any) {
           <img className={bold11Cls} src={bold3} onClick={() => setLineWidth(11)} alt="bold11" />
         </div>
         <div className="button-wrap">
-          <button className="button clear" onClick={clearSign} >清除</button>
-          <button className="button save" onClick={saveSign} >保存</button>
+          <button className="button clear" onClick={clearSign} >clean</button>
+          <button className="button save" onClick={saveSign} >save</button>
         </div>
 
         <div className="color-wrap">
@@ -112,16 +144,17 @@ function SignPannelTool(props: any) {
         className="canvas-write-tool-span return"
         onClick={() => hideSignWritePannel()} />
         <div className="title-box">
-          <p>绘</p>
-          <p>制</p>
-          <p>个</p>
-          <p>人</p>
-          <p>签</p>
-          <p>名</p>
+          <p>D</p>
+          <p>r</p>
+          <p>a</p>
+          <p>w</p>
+          <p>S</p>
+          <p>i</p>
+          <p>g</p>
+          <p>n</p>
         </div>
     </div>
     </>
 }
 
 export default SignPannelTool;
-

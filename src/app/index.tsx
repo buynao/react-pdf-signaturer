@@ -174,13 +174,14 @@ function ProtocolPage() {
 
   // 唤起签名弹窗
   const showSignWrritePannel = () => {
+    console.log('唤起签名')
       toggleShowSignWritePannel(true);
   }
   // 隐藏签名弹窗
   const hideSignWritePannel = useCallback(() => {
       toggleShowSignWritePannel(false);
   }, []);
-  return <div className={`${isPC() ? 'pcMode' : ''}`}>
+  return <div className={`${isPC ? 'pcMode' : ''}`}>
   <div className={`pdf-wrap`}>
     <PDFcontrol
         pdfViewerRef={pdfViewerRef}
@@ -195,8 +196,11 @@ function ProtocolPage() {
         signList={signList}
         signApiList={[]}
       />
-    {
-    !pdfBuffer ? 
+    {showSignWritePannel ? <SignWritePannel
+      hideSignWritePannel={hideSignWritePannel}
+      addSignInCanvas={addSignInCanvas}
+    /> : null}
+    { !pdfBuffer ? 
       <div className="upload-pdf">
         <input type="file" accept="pdf" title="上传PDF" onChange={async (e) => {
           if (e.target.files) {
@@ -218,12 +222,8 @@ function ProtocolPage() {
         saveSelectSign={saveSelectSign}
         pdfBeginLoaded={pdfBeginLoaded}
       />
-      {showSignWritePannel ? <SignWritePannel
-          hideSignWritePannel={hideSignWritePannel}
-          addSignInCanvas={addSignInCanvas}
-        /> : null}
       </>
-    }
+    } 
   </div>
   </div>
 }

@@ -59,14 +59,14 @@ const SignModal = React.memo((props: Props) => {
           }}>
           <img className="item-icon zoom-in" src={zoomInIcon} alt="zoomin" />
         </li>
-        <li className="tool-item zoom-out" onClick={() => {
+        <li className="tool-item edit" onClick={() => {
               if (curPdfCanvas) {
                 showSignWritePannel();
               }
           }}>
-          <img className="item-icon zoom-in" src={editdIcon} alt="edit" />
+          <img className="item-icon edit" src={editdIcon} alt="edit" />
         </li>
-        <li className="tool-item zoom-out" onClick={() => {
+        <li className="tool-item " onClick={() => {
               if (curPdfCanvas) {
                 showSignWritePannel();
               }

@@ -57,7 +57,7 @@ export const throttling = (fn: Function, wait: number, maxTimelong: number) => {
 }
 
 
-export const isPC = () => { //是否为PC端
+const isPCFun = () => { //是否为PC端
   var userAgentInfo = navigator.userAgent;
   var Agents = ["Android", "iPhone",
               "SymbianOS", "Windows Phone",
@@ -72,12 +72,14 @@ export const isPC = () => { //是否为PC端
   return flag;
 }
 
+export const isPC = isPCFun();
+
 export const getEvent = (e:any) => {
-  return isPC() ? e : e.targetTouches[0]
+  return isPC ? e : e.targetTouches[0]
 };
 
 export const getMoveEvent = () => {
-  return isPC() ? {
+  return isPC ? {
     start: 'mousedown',
     move: 'mousemove',
     end: 'mouseup'
