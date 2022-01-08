@@ -6,7 +6,7 @@
   "scripts": {
     "start": "rm -rf ./dist/ && NODE_ENV=production parcel ./public/index.html",
     "dev": "rm -rf ./dist/ && parcel ./public/index.html",
-    "build": "parcel build --no-source-maps --no-cache ./public/index.html --public-url ../reactPdf/dist/"
+    "build": "parcel build --no-source-maps --no-cache ./public/index.html --public-url ./"
   },
   "keywords": [
     "Parcel",
