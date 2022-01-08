@@ -12,26 +12,26 @@ export const drawImage = (ctx: CanvasRenderingContext2D, sign: ISignPosition) =>
   if (!image) {
     return;
   };
-    // ctx.save();
-    if (isSelect) {
-      ctx.moveTo(x, y);
-      ctx.lineTo(x + w, y);
-      ctx.lineTo(x + w, y + h);
-      ctx.lineTo(x, y + h);
-      ctx.lineTo(x, y);
-      ctx.stroke();
-    }
-    // 如果加载过直接渲染
-    if (image.complete) {
+  // ctx.save();
+  if (isSelect) {
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + w, y);
+    ctx.lineTo(x + w, y + h);
+    ctx.lineTo(x, y + h);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  }
+  // 如果加载过直接渲染
+  if (image.complete) {
+    ctx.drawImage(image, x, y, w, h);
+    // ctx.restore();
+  } else {
+    // 渲染数据
+    image.onload = function () {
       ctx.drawImage(image, x, y, w, h);
       // ctx.restore();
-    } else {
-      // 渲染数据
-      image.onload = function () {
-        ctx.drawImage(image, x, y, w, h);
-        // ctx.restore();
-      }
     }
+  }
 }
 
 export const drawRect = (ctx: CanvasRenderingContext2D, sign: ISignPosition) => {

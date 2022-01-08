@@ -35,9 +35,8 @@ function clipCanvas(canvas: HTMLCanvasElement, clipData: ClipData): Promise<stri
         clipCtx.drawImage(image, x, y, w, h, 0, 0, w, h);
         resolve(clipCanvas.toDataURL(MIME_TYPE))
       }
-
-      image = null;
       clipCanvas = null;
+      image = null;
     }
   });
 }
@@ -47,40 +46,34 @@ function SignPannelTool(props: any) {
 
   // 保存
   const saveSign = async () => {
-    console.log(canvas);
     if (!canvas) return;
     if (isWrite) {
       const ctx = canvas.getContext('2d');
       const width = canvas.width;
       const height = canvas.height;
-      const MIME_TYPE = "image/png";
-      const imgURL = await clipCanvas(canvas, clipSize);
-      console.log(imgURL);
-      console.log(clipSize);
+      const imgData = await clipCanvas(canvas, clipSize);
       // 横屏保存
       if (isPC || window.orientation === 90) {
-        addSignInCanvas(imgURL, clipSize.w, clipSize.h, 0);
+        addSignInCanvas(imgData, clipSize.w, clipSize.h);
         hideSignWritePannel();
       } else {
         // 竖屏状态 - 翻转图像进行保存
         ctx.clearRect(0, 0, width, height);
-        canvas.width = height;
-        canvas.height = width;
+        canvas.width = clipSize.h;
+        canvas.height = clipSize.w;
   
-        const img = createImage(imgURL)
+        const img = createImage(imgData)
         img.onload = function () {
           // 反向翻转绘制图片
           ctx.save();
-          // move to the center of the canvas
-          ctx.translate(height / 2, width / 2);
-          // rotate the canvas to the specified degrees
+          ctx.translate(clipSize.h / 2, clipSize.w / 2);
           ctx.rotate(-90 * Math.PI/180);
-          ctx.translate(-height / 2, - width / 2);
-          ctx.drawImage(img, height /2 - img.width / 2, width / 2 - img.height / 2);
+          ctx.translate(-clipSize.h / 2, - clipSize.w / 2);
+          ctx.drawImage(img, clipSize.h / 2 - img.width / 2, clipSize.w / 2 - img.height / 2);
           ctx.restore();
-          setTimeout(() => {
-            const url = canvas.toDataURL(MIME_TYPE);
-            addSignInCanvas(url, canvas.width, canvas.height, 0);
+          setTimeout(async () => {
+            const url = canvas.toDataURL('image/png');
+            addSignInCanvas(url, canvas.width, canvas.height);
             hideSignWritePannel();
           })
         }

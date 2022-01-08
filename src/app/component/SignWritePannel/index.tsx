@@ -13,6 +13,7 @@ interface CanvasSize {
 }
 
 interface Props {
+  showSignWritePannelState: boolean;
   addSignInCanvas: AddSignInCanvas;
   hideSignWritePannel: () => void;
 }
@@ -51,7 +52,10 @@ function getInitSize() {
 const canvasInitSize = getInitSize();
 
 function SignWritePannel(props: Props) {
-  const { addSignInCanvas, hideSignWritePannel } = props;
+  const { addSignInCanvas, hideSignWritePannel, showSignWritePannelState } = props;
+
+  if (!showSignWritePannelState) return null;
+
   const [ clipSize, saveClipSize ] = useState({ // 签名区域大小
     w: 0,
     h: 0,
@@ -70,7 +74,6 @@ function SignWritePannel(props: Props) {
       updateCanvasSize(size);
   }, []);
 
-  console.log(`isPC:${isPC}`);
   useEffect(() => {
     // 进入画面绘制页面，获取初始化大小
     handleCanvasSize();
@@ -85,15 +88,6 @@ function SignWritePannel(props: Props) {
         width: isPC ? 800 : canvasSize.width,
         height: canvasSize.height
       }}>
-        {/* <svg className="full-svg pointer-events-none">
-          <path
-            strokeWidth={lineWidth}
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            d={path}
-            stroke={color}
-            fill="none" />
-        </svg> */}
         <canvas ref={canvasRef}></canvas>
       </div>
       <SignPannelTool

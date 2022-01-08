@@ -1,5 +1,5 @@
-import { useGetCanvasFirstImages } from "./useGetCanvasFirstImage";
+import { useCloneSignCanvas } from "./useGetCanvasFirstImage";
 
 export {
-  useGetCanvasFirstImages
+  useCloneSignCanvas
 }

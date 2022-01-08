@@ -1,11 +1,14 @@
 
-import { ISignPosition, InitCanvasImageData, UpdateSignList } from "MyTypes";
-import { ICanvasPosition } from "./index";
+import { ISignPosition, InitCanvasImageData, UpdateSignList, ICanvasPosition } from "MyTypes";
 import { drawRect, drawImage, clearSignToolPosition, getSignToolPositon } from "../../../util/canvasTool";
 import { getEvent } from "../../../util/help";
 
 
-export const clearSignTool = (sign: ISignPosition, signList: ISignPosition[], updateSignList: UpdateSignList) => {
+export const clearSignTool = (
+  sign: ISignPosition,
+  signList: ISignPosition[],
+  updateSignList: UpdateSignList
+) => {
   if (!sign.isSelect && sign.image) {
     // 将之前的辅助线移除
     const newSignList = clearSignToolPosition(signList);
@@ -15,7 +18,10 @@ export const clearSignTool = (sign: ISignPosition, signList: ISignPosition[], up
   }
 }
 
-export const getDiffOffset = (newOffset: ICanvasPosition, oldOffset: ICanvasPosition) => {
+export const getDiffOffset = (
+  newOffset: ICanvasPosition,
+  oldOffset: ICanvasPosition
+) => {
     return {
       x: newOffset.x - oldOffset.x,
       y: newOffset.y - oldOffset.y
@@ -120,6 +126,8 @@ function getImageOffset(selectSign: ISignPosition,  signList: ISignPosition[], o
       }
     }
 }
+
+
 let canvasWrap: any;
 // 返回canvas相对于视口的位置
 export const getTouchPosition = (e: any, canvasWidth: number) => {

@@ -15,44 +15,43 @@ const cloneCanvas = (oldCanvas: HTMLCanvasElement) => {
   newCanvas.style.width = oldCanvas.style.width;
   newCanvas.style.height = oldCanvas.style.height;
   newCanvas.style.transform = oldCanvas.style.transform;
+  const pageIndex  = oldCanvas.getAttribute('aria-label')?.replace('Page ', '') as string;
+  newCanvas.setAttribute('pageindex', `${+pageIndex - 1}`);
   return newCanvas;
 }
 
-export const useGetCanvasFirstImages = (
+export const useCloneSignCanvas = (
   pdfCanvasNoLoad: number,
   isPdfBeginLoad: boolean,
-  isPdfEndLoadRef: React.MutableRefObject<boolean>): InitCanvasImageData[] =>  {
-    const [ firstImageDatas, updateInitImageData ] = useState<InitCanvasImageData[]>([]);
+  isPdfEndLoadRef: React.MutableRefObject<boolean>) =>  {
     const eventRef = useRef<any>(null)
-
     useEffect(() => {
       const domWrapper = document.querySelector('#viewerContainer') as any;
       function savePdfCanvasFirstImage() {
           const $pages = document.querySelectorAll('.page');
           const isAllLoaded = [...$pages].every((page) => !!page.children[0].children[0]);
           isPdfEndLoadRef.current = isAllLoaded;
+
           const showPages = [...$pages].filter(page => {
               const canvas = page.children[0].children[0] as HTMLCanvasElement;
               const isLoaded = page.getAttribute('data-loaded');
               return isLoaded && !!canvas && !canvas.isCatchFirstImage;
           });
-          const firstImageDataArray = [] as any[];
+
           if (isAllLoaded && showPages.length === 0) {
             if (eventRef.current) {
               domWrapper?.removeEventListener('scroll', eventRef.current);
             }
             return;
           }
+
           if (showPages.length) {
             showPages.forEach(($page: any) => {
                 const pdfCanvas = $page.children[0].children[0] as HTMLCanvasElement;
                 const signCanvas = cloneCanvas(pdfCanvas);
                 $page.children[0].appendChild(signCanvas);
                 pdfCanvas.isCatchFirstImage = true;
-                firstImageDataArray.push(1);
             });
-
-            updateInitImageData((array) => [...array, ...firstImageDataArray]);
           }
       }
       if (isPdfBeginLoad && !isPdfEndLoadRef.current) {
@@ -76,6 +75,4 @@ export const useGetCanvasFirstImages = (
           }
       }
     }, [isPdfBeginLoad, pdfCanvasNoLoad]);
-  
-    return firstImageDatas;
 }

@@ -72,10 +72,10 @@ export const useCanvas = (writeSign: any, signInfo: SignInfo, canvasSize: Canvas
         const ctx = c.getContext('2d');
         if (!ctx) return;
         if (isMoveRef.current) {
-          const w = maxX - minX + 20;
-          const h = maxY - minY + 20;
+          const w = maxX - minX + 15;
+          const h = maxY - minY + 15;
           saveClipSize({
-            w, h, x: minX, y: minY
+            w, h, x: minX - 5, y: minY - 5
           });
           console.log(`x:${minX}; y:${minY}; width:${w}; height:${h}`)
           // console.log(width, height);
