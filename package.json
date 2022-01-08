@@ -4,8 +4,8 @@
   "description": "Simple implementation of online contract signature.",
   "main": "index.js",
   "scripts": {
-    "start": "rm -rf ./dist/ && NODE_ENV=production parcel ./public/index.html",
-    "dev": "rm -rf ./dist/ && parcel ./public/index.html",
+    "start": "rm -rf ./docs/ && NODE_ENV=production parcel ./public/index.html",
+    "dev": "rm -rf ./docs/ && parcel ./public/index.html",
     "build": "parcel build --no-source-maps --no-cache ./public/index.html -d docs --public-url ./"
   },
   "keywords": [
@@ -19,6 +19,7 @@
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.10.1",
+    "@types/classnames": "^2.3.1",
     "@types/downloadjs": "^1.4.3",
     "@types/node": "^15.6.0",
     "@types/pdfjs-dist": "^2.7.4",
@@ -28,19 +29,17 @@
     "typescript": "3.9.7"
   },
   "dependencies": {
-    "ali-react-table": "^2.5.1",
-    "classnames": "^2.2.6",
-    "downloadjs": "^1.4.7",
-    "jspdf": "^2.4.0",
-    "less": "^3.11.3",
-    "parcel-bundler": "^1.12.5",
-    "parcel-plugin-bundle-visualiser": "^1.2.0",
-    "pdf-lib": "^1.17.1",
+    "classnames": "2.2.6",
+    "downloadjs": "1.4.7",
+    "less": "3.11.3",
+    "parcel-bundler": "1.12.5",
+    "parcel-plugin-bundle-visualiser": "1.2.0",
+    "pdf-lib": "1.17.1",
     "pdfjs-dist": "2.5.207",
-    "react": "^17.0.2",
-    "react-alert": "^7.0.3",
-    "react-alert-template-basic": "^1.0.2",
-    "react-dom": "^17.0.2",
-    "uuid": "^8.3.2"
+    "react": "17.0.2",
+    "react-alert": "7.0.3",
+    "react-alert-template-basic": "1.0.2",
+    "react-dom": "17.0.2",
+    "uuid": "8.3.2"
   }
 }
