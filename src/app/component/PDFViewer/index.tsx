@@ -3,6 +3,7 @@ import { useHandleCanvasEvent, IProps } from "./useHandleCanvasEvent";
 import { DEFAULT_SCALE_VALUE } from "../../constants";
 import 'pdfjs-dist/es5/web/pdf_viewer.css';
 import './style.css'
+import pdfIcon from "../../assets/pdf.png"
 const pdfjs = require('pdfjs-dist');
 const pdfjsViewer = require('pdfjs-dist/es5/web/pdf_viewer');
 pdfjs.GlobalWorkerOptions.workerSrc = require('pdfjs-dist/es5/build/pdf.worker.entry');
@@ -13,7 +14,7 @@ const TEXT_LAYER_MODE = 0;
 const USE_ONLY_CSS_ZOOM = true;
 
 const PDFViewer = (props: IProps) => {
-    const { pdfReadBuffer, pdfFileRef, pdfViewerRef, pdfBeginLoaded
+    const { pdfReadBuffer, pdfFileRef, pdfViewerRef, pdfBeginLoaded, uploadPdf
     } = props;
     const pdfRef = useRef<HTMLDivElement>(null);
     const eventBusRef = useRef<any>(new pdfjsViewer.EventBus());
@@ -75,6 +76,10 @@ const PDFViewer = (props: IProps) => {
                 ref={containerRef}
             >
                 <div id="pdf-list" ref={pdfRef} />
+                {!pdfReadBuffer ? <div className="upload-pdf">
+                    <input type="file" accept="pdf" title="上传PDF" onChange={uploadPdf} />
+                    <img src={pdfIcon} title="上传PDF" alt="上传PDF"/>
+                </div> : null}
             </div>
         </div>
     )

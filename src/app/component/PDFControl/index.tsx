@@ -1,7 +1,5 @@
 import * as React from "react";
 import "./index.less";
-import { useAlert } from 'react-alert';
-import { ISignPosition, UpdateSignList } from "MyTypes";
 import { initSignCanvasSize } from "../../../util/canvasTool";
 import { DEFAULT_SCALE_VALUE } from "../../constants/index";
 import zoomOutIcon from "../../assets/zoomOut.png";
@@ -14,24 +12,16 @@ import pdfIcon from "../../assets/pdfIcon.png";
 import pictureIcon from "../../assets/picture.png";
 
 interface Props {
-  signApiList: ISignPosition[];
-  signList: ISignPosition[];
-  updateSignList: UpdateSignList;
-  saveSelectSign: (sign: ISignPosition | undefined) => void;
-  selectSign: ISignPosition;
-  curPdfCanvas: HTMLCanvasElement;
   showSignWritePannel: () => void;
   deleteSignInCanvas: () => void;
   uploadPdf: (e: any) => Promise<void>;
   downloadPdf: () => void;
-  isShowAllPdfs: boolean;
   pdfViewerRef: any;
 }
 
 const PDFControl = React.memo((props: Props) => {
-  const alert = useAlert();
   const [pdfScale, setPdfScale] = React.useState<any>(DEFAULT_SCALE_VALUE);
-  const { uploadPdf, pdfViewerRef, curPdfCanvas, showSignWritePannel, isShowAllPdfs,
+  const { uploadPdf, pdfViewerRef, showSignWritePannel,
     deleteSignInCanvas, downloadPdf } = props;
 
   // 重新设置pdf尺寸

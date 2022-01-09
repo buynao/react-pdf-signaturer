@@ -21,12 +21,14 @@ export interface IProps {
   saveSelectSign: (sign: ISignPosition | undefined) => void;
   pdfBeginLoaded: (bol: boolean) => void;
   triggerCanvasLoad: React.Dispatch<React.SetStateAction<number>>
+  uploadPdf: (e: any) => Promise<void>
 };
 
 export const useHandleCanvasEvent = (
   props: IProps,
   pdfRef: React.RefObject<HTMLDivElement>) => {
-    const { curPdfCanvas, saveCurPdfCanvas, signList,
+    const {
+        curPdfCanvas, saveCurPdfCanvas, signList,
         updateSignList, triggerCanvasLoad,
         saveSelectSign
     } = props;
@@ -107,7 +109,6 @@ export const useHandleCanvasEvent = (
         if (!$pdf) return;
         // canvaswrap 点击事件
         function pdfHandledClick (e: any) {
-            // 防止冒泡事件干扰
             if (signMoveRef.current) return;
             const canvas = e.target as any;
             if (!canvas || !canvas.getContext) return;

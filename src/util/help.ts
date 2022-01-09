@@ -89,3 +89,5 @@ export const getMoveEvent = () => {
     end: 'touchend'
   }
 }
+
+export const noop = () => {};
