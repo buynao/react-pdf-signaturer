@@ -1,7 +1,6 @@
 import * as React from "react";
 import "./index.less";
-import { useCanvas } from "./hooks/useCanvas"
-import { useSvg } from "./hooks/useSvg"
+import { useCanvas } from "./hooks/useCanvas";
 import SignPannelTool from "./component/SignPannelTool";
 import { AddSignInCanvas } from "MyTypes";
 import { createImage, isPC } from "../../../util/help";

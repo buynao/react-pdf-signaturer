@@ -8,9 +8,6 @@ import { useCloneSignCanvas, useDrawSignInCanvas, useEditPdf } from "./hooks/";
 
 const { useState, useCallback, useRef } = React;
 
-// // 强制pc&web渲染比例一致, 适配不同手机，pdfjs底层使用
-// window.devicePixelRatio = 3;
-
 function ProtocolPage() {
   const pdfFileRef = useRef<any>();
   const pdfViewerRef = useRef<any>();
@@ -20,7 +17,7 @@ function ProtocolPage() {
   const [ curPdfCanvas, saveCurPdfCanvas ] = useState<HTMLCanvasElement | null>(null);
   const [ showSignWritePannelState, toggleShowSignWritePannel ] = useState(false);
   // 添加渲染层
-  useCloneSignCanvas(pdfCanvasNeedLoad, isPdfBeginLoad, isPdfEndLoadRef);
+  const scale = useCloneSignCanvas(pdfCanvasNeedLoad, isPdfBeginLoad, isPdfEndLoadRef);
   const {
     addSignInCanvas,
     deleteSignInCanvas,
@@ -53,6 +50,7 @@ function ProtocolPage() {
         showSignWritePannel={showSignWritePannel}
       />
       <PdfViewComponent
+        scale={scale}
         pdfFileRef={pdfFileRef}
         pdfViewerRef={pdfViewerRef}
         pdfReadBuffer={pdfReadBuffer as ArrayBuffer}

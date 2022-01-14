@@ -29,7 +29,7 @@ const PDFViewer = (props: IProps) => {
         if (pdfReadBuffer) {
             const linkService = new pdfjsViewer.PDFLinkService({
                 eventBus: eventBusRef.current,
-                });
+            });
             const pdfViewer = new pdfjsViewer.PDFViewer({
                 container: containerRef.current,
                 eventBus: eventBusRef.current,

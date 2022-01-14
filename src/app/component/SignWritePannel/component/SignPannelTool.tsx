@@ -52,6 +52,7 @@ function SignPannelTool(props: any) {
       const width = canvas.width;
       const height = canvas.height;
       const imgData = await clipCanvas(canvas, clipSize);
+      // const imgData = canvas.toDataURL('image/png');
       // 横屏保存
       if (isPC || window.orientation === 90) {
         addSignInCanvas(imgData, clipSize.w, clipSize.h);

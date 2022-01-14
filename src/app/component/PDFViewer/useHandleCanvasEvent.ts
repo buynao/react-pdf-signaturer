@@ -12,6 +12,7 @@ const { useEffect, useRef, useState } = React;
 
 export interface IProps {
   pdfReadBuffer: ArrayBuffer;
+  scale?: number;
   pdfViewerRef: any;
   pdfFileRef: any;
   signList: ISignPosition[];
@@ -30,7 +31,7 @@ export const useHandleCanvasEvent = (
     const {
         curPdfCanvas, saveCurPdfCanvas, signList,
         updateSignList, triggerCanvasLoad,
-        saveSelectSign
+        saveSelectSign, scale
     } = props;
     const touchStartEventRef = useRef<any>();
     const touchMoveEventRef = useRef<any>();
@@ -48,7 +49,7 @@ export const useHandleCanvasEvent = (
         signPositions.current = getSignPosition(c, signList);
         const ctx = c.getContext('2d');
         if (!signPositions.current.length || !ctx) return;
-        const touchPosition = getTouchPosition(e, c.width);
+        const touchPosition = getTouchPosition(e, scale);
         const curImage = getPointInImage(touchPosition, signPositions.current);
 
         if (!!curImage.id) {
@@ -81,7 +82,7 @@ export const useHandleCanvasEvent = (
             const ctx = c.getContext('2d');
             if (!ctx) return;
             // 当前鼠标的移动位置
-            newOffset.current = getTouchPosition(e, c.width);
+            newOffset.current = getTouchPosition(e, scale);
             const diffOffset = getDiffOffset(newOffset.current, oldOffset.current);
 
             // 清除画布
@@ -109,6 +110,7 @@ export const useHandleCanvasEvent = (
         if (!$pdf) return;
         // canvaswrap 点击事件
         function pdfHandledClick (e: any) {
+            // 选中canvas元素时，禁止事件冒泡
             if (signMoveRef.current) return;
             const canvas = e.target as any;
             if (!canvas || !canvas.getContext) return;

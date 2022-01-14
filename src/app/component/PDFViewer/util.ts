@@ -127,30 +127,24 @@ function getImageOffset(selectSign: ISignPosition,  signList: ISignPosition[], o
     }
 }
 
-
-let canvasWrap: any;
 // 返回canvas相对于视口的位置
-export const getTouchPosition = (e: any, canvasWidth: number) => {
+export const getTouchPosition = (e: any, scale: number) => {
   const event = getEvent(e);
   const target = event.target;
   const rect = target.getBoundingClientRect();
   const x = event.pageX - rect.left;
   const y = event.pageY - rect.top;
-  canvasWrap = canvasWrap ? canvasWrap : document.querySelector('.canvasWrapper');
-  const rate = canvasWrap.offsetWidth / canvasWidth;
   console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
   console.log(`初始位移x:${x}，y:${y}`)
-  console.log(`canvasWrap.offsetWidth:${canvasWrap.offsetWidth}`)
-  console.log(`canvasWidth:${canvasWidth}`)
-  console.log(`rate:${rate}`)
+  console.log(`scale:${scale}`)
   console.log(`最终位移:${JSON.stringify({
-    x: x / rate,
-    y: y / rate
+    x: x / scale,
+    y: y / scale
   })}`);
   console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
   return {
-    x: x / rate,
-    y: y / rate
+    x: x / scale,
+    y: y / scale
   }
 }
 // 返回当前的偏移值

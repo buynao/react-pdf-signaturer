@@ -24,7 +24,8 @@ export const useCloneSignCanvas = (
   pdfCanvasNoLoad: number,
   isPdfBeginLoad: boolean,
   isPdfEndLoadRef: React.MutableRefObject<boolean>) =>  {
-    const eventRef = useRef<any>(null)
+    const eventRef = useRef<any>(null);
+    const scaleRef = useRef(1);
     useEffect(() => {
       const domWrapper = document.querySelector('#viewerContainer') as any;
       function savePdfCanvasFirstImage() {
@@ -49,6 +50,7 @@ export const useCloneSignCanvas = (
             showPages.forEach(($page: any) => {
                 const pdfCanvas = $page.children[0].children[0] as HTMLCanvasElement;
                 const signCanvas = cloneCanvas(pdfCanvas);
+                scaleRef.current = parseInt(pdfCanvas.style.width) / pdfCanvas.width;
                 $page.children[0].appendChild(signCanvas);
                 pdfCanvas.isCatchFirstImage = true;
             });
@@ -75,4 +77,6 @@ export const useCloneSignCanvas = (
           }
       }
     }, [isPdfBeginLoad, pdfCanvasNoLoad]);
+  
+  return scaleRef.current;
 }
