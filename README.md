@@ -22,3 +22,7 @@ $ npm run dev & yarn dev
 - Handwritten suitable size Signature 
 - Mobile Friendly
 - Zoom in and out
+
+## Introduction
+
+[中文](https://github.com/buynao/react-pdf-signaturer/blob/main/notes.md)
