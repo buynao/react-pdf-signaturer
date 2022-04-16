@@ -11,7 +11,7 @@
 
 ## DEMO
 
-[https://buynao.github.io/react-pdf-signaturer/](https://buynao.github.io/react-pdf-signaturer/)
+[https://react-pdf-signaturer.vercel.app/](https://react-pdf-signaturer.vercel.app/)
 
 ![react-pdf-signaturer](https://buynao.oss-cn-beijing.aliyuncs.com/signaturer.gif)
 
