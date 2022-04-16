@@ -1,9 +1,17 @@
 # react-pdf-signaturer
 
-Simple implementation of online contract signature.
+`PDF` 在线签名的简单实现
 
-## Example
-online demo: [https://buynao.github.io/react-pdf-signaturer/](https://buynao.github.io/react-pdf-signaturer/)
+## 功能实现
+
+- 签完名，导出的 `PDF` 结构仍然和之前保持一致
+- 自适应的绘制签名大小
+- 兼容移动端
+- 支持放大，缩小
+
+## DEMO
+
+[https://buynao.github.io/react-pdf-signaturer/](https://buynao.github.io/react-pdf-signaturer/)
 
 ![react-pdf-signaturer](https://buynao.oss-cn-beijing.aliyuncs.com/signaturer.gif)
 
@@ -16,9 +24,6 @@ $ npm install & yarn
 $ npm run dev & yarn dev
 ```
 
-## Feature
+## 技术方案
 
-- After downloading, the pdf retains the previous format
-- Handwritten suitable size Signature 
-- Mobile Friendly
-- Zoom in and out
+[技术方案和一些坑](https://github.com/buynao/react-pdf-signaturer/blob/main/notes.md)
