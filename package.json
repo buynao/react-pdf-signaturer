@@ -4,8 +4,8 @@
   "description": "Simple implementation of online contract signature.",
   "main": "index.js",
   "scripts": {
-    "start": "rm -rf ./docs/ && parcel ./public/index.html",
-    "build": "parcel build --no-source-maps --no-cache ./public/index.html -d docs --public-url ./"
+    "start": "rm -rf ./dist/ && parcel ./public/index.html",
+    "build": "parcel build --no-source-maps --no-cache ./public/index.html -d dist --public-url ./"
   },
   "keywords": [
     "Parcel",
